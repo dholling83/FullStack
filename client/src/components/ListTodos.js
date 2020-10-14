@@ -7,7 +7,7 @@ const ListTodos = () => {
 
 	const getTodos = async () => {
 		try {
-			const response = await fetch('/todos');
+			const response = await fetch('/todos');//.then(res => res.text()).then(text => console.log(text));
 			const jsonData = await response.json();
 
 			setTodos(jsonData);
