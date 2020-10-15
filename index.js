@@ -20,16 +20,14 @@ app.use(express.json());
 //create a todo
 app.post('/todos', async (req, res) => {
 	try {
-		const { description } = req.body;
+		console.log('req.body: ', req.body);
 		const newTodo = await pool(
-			creds.item1,
-			creds.item2,
-			creds.item3,
-			creds.item4,
-			creds.item5
-		).query('INSERT INTO todo (description) VALUES($1) RETURNING *', [
-			description
-		]);
+			req.body.item1,
+			req.body.item2,
+			req.body.item3,
+			req.body.item4,
+			req.body.item5
+		).query(req.body.item6, [req.body.description]);
 		res.json(newTodo.rows[0]);
 	} catch (error) {
 		console.error(error.message);
@@ -56,11 +54,11 @@ app.get('/todos/:id', async (req, res) => {
 	try {
 		const { id } = req.params;
 		const todo = await pool(
-			creds.item1,
-			creds.item2,
-			creds.item3,
-			creds.item4,
-			creds.item5
+			req.body.item1,
+			req.body.item2,
+			req.body.item3,
+			req.body.item4,
+			req.body.item5
 		).query('SELECT * FROM todo WHERE todo_id = $1', [id]);
 		res.json(todo.rows[0]);
 	} catch (error) {
@@ -74,11 +72,11 @@ app.put('/todos/:id', async (req, res) => {
 		const { id } = req.params;
 		const { description } = req.body;
 		const updateTodo = await pool(
-			creds.item1,
-			creds.item2,
-			creds.item3,
-			creds.item4,
-			creds.item5
+			req.body.item1,
+			req.body.item2,
+			req.body.item3,
+			req.body.item4,
+			req.body.item5
 		).query('UPDATE todo SET description = $1 WHERE todo_id = $2', [
 			description,
 			id
